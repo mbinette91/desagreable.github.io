@@ -1,0 +1,9 @@
+# Site settings
+title: Désagréable
+email: vp@desagreable.club
+url: https://desagreable.club
+description: "Site officiel de la populace désagréable."
+
+# Build settings
+markdown: kramdown
+permalink: pretty
