@@ -163,9 +163,16 @@
       document.write(unescape(chansons[Math.floor(Math.random() * chansons.length)]))
     </script>
     <script id="magic-cursor-criss">
-      setTimeout(function(){
-        document.getElementById('s01').play();
-      }, 5000)
+      function magicUnicorn() {
+        var MIN_TIME_INTERVAL = 0;
+        var MAX_TIME_INTERVAL = 12000;
+        var timeInterval = Math.floor((Math.random() * MAX_TIME_INTERVAL) + MIN_TIME_INTERVAL);
+        setTimeout(function(){
+          document.getElementById('s01').play();
+          magicUnicorn(); // And again...
+        }, timeInterval)
+      }
+      magicUnicorn(); // Yay!
     </script>
     <audio id="s01">
       <source src="./sounds/s01.mp3" type="audio/mpeg" />
