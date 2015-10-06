@@ -116,8 +116,8 @@
     #unicorn {
       display: none;
       position: fixed;
-      width: 50px;
-      height: 50px;
+      width: 250px;
+      height: 250px;
       cursor: pointer;
     }
     #unicorn.unicorn-1 { background-image:url('img/unicorn1.jpg'); }
@@ -193,8 +193,8 @@
       Unicorn.prototype.hi = function() {
         this.elem.className = "unicorn-" + rand(1, NB_UNICORNS);
         this.elem.style.display = 'block';
-        this.elem.style.left = rand(0, window.innerWidth) + "px";
-        this.elem.style.top  = rand(0, window.innerHeight) + "px";
+        this.elem.style.left = rand(0, window.innerWidth - parseInt(this.elem.clientWidth)) + "px";
+        this.elem.style.top  = rand(0, window.innerHeight - parseInt(this.elem.clientHeight)) + "px";
         this.rotation = 0;
         this.rspeed = rand(this.speeds.min.rotation, this.speeds.max.rotation);
         this.interval = setInterval(this.tick.bind(this), 25)
@@ -211,7 +211,7 @@
 
       var MIN_TIME_INTERVAL = 0;
       var MAX_TIME_INTERVAL = 10000;
-      var unicorn = new Unicorn('unicorn', {'min': {'rotation': 10}, 'max': {'rotation': 30}})
+      var unicorn = new Unicorn('unicorn', {'min': {'rotation': 5}, 'max': {'rotation': 15}})
       function magicUnicorn() {
         var timeInterval = rand(MIN_TIME_INTERVAL, MAX_TIME_INTERVAL)
         setTimeout(function(){
