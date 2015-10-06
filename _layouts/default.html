@@ -112,6 +112,19 @@
     .github:hover {color: #00CCFF; }
     .github:link {color: #E6FF00; }
     .github {color: #E6FF00; }
+
+    #unicorn {
+      display: none;
+      position: fixed;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+    }
+    #unicorn.unicorn-1 { background-image:url('img/unicorn1.jpg'); }
+    #unicorn.unicorn-2 { background-image:url('img/unicorn2.jpg'); }
+    #unicorn.unicorn-3 { background-image:url('img/unicorn3.jpg'); }
+    #unicorn.unicorn-4 { background-image:url('img/unicorn4.jpg'); }
+    #unicorn.unicorn-5 { background-image:url('img/unicorn5.jpg'); }
     </style>
   </head>
   <body>
@@ -155,6 +168,8 @@
         <a class="github" href="https://github.com/Desagreable/desagreable.github.io"> ON ACCEPTE LER POULES REQUÊTES SU GITHUB GITHUB !!!!!</a>
       </center>
     </blink>
+    
+    <div id="unicorn"></div>
 
     <div style="visibility: hidden; height: 0;">
     <script type="text/javascript">
@@ -163,13 +178,54 @@
       document.write(unescape(chansons[Math.floor(Math.random() * chansons.length)]))
     </script>
     <script id="magic-cursor-criss">
+      function rand(min, max){
+        return Math.floor((Math.random() * max) + min);
+      }
+
+      var NB_UNICORNS = 5;
+      function Unicorn(id, rspeed) {
+        this.elem = document.getElementById(id);
+        this.elem.onclick = function(){ alert('NIQAB!!!'); }
+        this.speeds = speeds;
+        this.rotation = 0;
+        this.interval = 0;
+      }
+      Unicorn.prototype.hi = function() {
+        this.elem.className = "unicorn-" + rand(1, NB_UNICORNS);
+        this.elem.style.display = 'block';
+        this.elem.style.left = rand(0, window.innerWidth) + "px";
+        this.elem.style.top  = rand(0, window.innerHeight) + "px";
+        this.rotation = 0;
+        this.rspeed = rand(this.speeds.min.rotation, this.speeds.max.rotation);
+        this.interval = setInterval(this.tick.bind(this), 25)
+      }
+      Unicorn.prototype.bye = function() {
+        this.elem.style.display = 'none';
+        clearInterval(this.interval)
+        this.interval = 0;
+      }
+      Unicorn.prototype.tick = function() {
+        this.rotation += this.rspeed;
+        this.elem.style.transform = "rotate(" + this.rotation + "deg)"
+        this.update()
+      }
+
+      var MIN_TIME_INTERVAL = 0;
+      var MAX_TIME_INTERVAL = 10000;
+      var speeds = {}
+      speeds.min = {'rotation':10}
+      speeds.max = speeds.min
+      var unicorn = new Unicorn('unicorn', {'min': {'rotation': 10}, 'max': {'rotation': 30}})
       function magicUnicorn() {
-        var MIN_TIME_INTERVAL = 0;
-        var MAX_TIME_INTERVAL = 12000;
-        var timeInterval = Math.floor((Math.random() * MAX_TIME_INTERVAL) + MIN_TIME_INTERVAL);
+        var timeInterval = rand(MIN_TIME_INTERVAL, MAX_TIME_INTERVAL)
         setTimeout(function(){
-          document.getElementById('s01').play();
-          magicUnicorn(); // And again...
+          var magic = document.getElementById('s01');
+          unicorn.hi();
+          magic.onended = function(){
+            unicorn.bye();
+            magicUnicorn(); // And again...
+          }
+          magic.play();
         }, timeInterval)
       }
       magicUnicorn(); // Yay!
